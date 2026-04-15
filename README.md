@@ -2,6 +2,8 @@
 
 A Chrome extension that blurs stickers, images, and GIFs on WhatsApp Web until you choose to reveal them. Built for classroom, office, and public settings where someone nearby might see your screen.
 
+The main motivation for this extension was stickers. WhatsApp now gives better control for auto-download of photos, videos, and other media, but stickers can still appear instantly in chats. This extension helps hide those stickers (and other media) until you explicitly reveal them.
+
 ---
 
 ## How to install (Developer Mode)

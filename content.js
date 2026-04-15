@@ -25,14 +25,12 @@
   };
 
   let panicActive = false;
-  let panicBanner = null;
   let observer = null;
 
   // ─── Init ─────────────────────────────────────────────────────────────────
   function init() {
     loadSettings(() => {
       if (!settings.enabled) return;
-      createPanicBanner();
       startObserver();
       scanExisting();
       registerKeyboardShortcut();
@@ -258,13 +256,6 @@
   }
 
   // ─── Panic Mode ───────────────────────────────────────────────────────────
-  function createPanicBanner() {
-    panicBanner = document.createElement("div");
-    panicBanner.className = "wa-shield-panic-banner";
-    panicBanner.textContent = "🛡 Shield active — press Shift+" + settings.panicKey + " to reveal";
-    document.body.appendChild(panicBanner);
-  }
-
   function isPanicActive() {
     return panicActive;
   }
@@ -272,17 +263,11 @@
   function activatePanic() {
     panicActive = true;
     document.body.classList.add("wa-shield-panic");
-    if (panicBanner) {
-      panicBanner.classList.add("visible");
-    }
   }
 
   function deactivatePanic() {
     panicActive = false;
     document.body.classList.remove("wa-shield-panic");
-    if (panicBanner) {
-      panicBanner.classList.remove("visible");
-    }
   }
 
   function togglePanic() {

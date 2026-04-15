@@ -133,12 +133,18 @@
     }
 
     // --- GIFs ---
+    // WhatsApp Web renders GIFs as divs with aria-label="Play GIF" and a
+    // background-image preview, plus a GIPHY watermark SVG with data-icon="giphy".
     if (settings.blurGifs) {
       const gifs = root.querySelectorAll
-        ? root.querySelectorAll('[data-testid="gif"], video[src*="gif"], img[src*=".gif"]')
+        ? root.querySelectorAll(
+            '[aria-label="Play GIF"], [data-icon="giphy"], ' +
+            '[data-testid="gif"], video[src*="gif"], img[src*=".gif"]'
+          )
         : [];
       gifs.forEach((el) => {
-        if (!isAlreadyShielded(el)) results.push({ el, type: "gif" });
+        const target = el.closest('[aria-label="Play GIF"]') || el;
+        if (!isAlreadyShielded(target)) results.push({ el: target, type: "gif" });
       });
     }
 
@@ -192,8 +198,11 @@
 
     el.setAttribute("data-wa-shield", type);
 
+    const isBlock = el.tagName === "DIV" || el.tagName === "SECTION";
+    const tag = isBlock ? "div" : "span";
+
     // Wrap in a relative container
-    const wrapper = document.createElement("span");
+    const wrapper = document.createElement(tag);
     wrapper.className = "wa-shield-wrapper";
     wrapper.setAttribute("data-wa-shield-wrapper", "true");
 
@@ -204,7 +213,7 @@
     el.classList.add("wa-shield-blurred");
 
     // Overlay with reveal button
-    const overlay = document.createElement("span");
+    const overlay = document.createElement(tag);
     overlay.className = "wa-shield-overlay";
 
     const btn = document.createElement("button");
